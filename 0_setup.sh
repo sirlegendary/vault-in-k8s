@@ -24,8 +24,9 @@ function deploy-k3s() {
     
     #https://copyprogramming.com/howto/error-kubernetes-cluster-unreachable-get-http-localhost-8080-version-timeout-32s-dial-tcp-127-0-0-1-8080-connect-connection-refused
     multipass exec $k8s_master -- bash -c "mkdir -p ~/.kube"
-    multipass exec $k8s_master -- bash -c "kubectl config view --raw > ~/.kube/config"
     multipass exec $k8s_master -- bash -c "sudo apt  install jq -y"
+    #multipass exec $k8s_master -- bash -c "wget https://get.helm.sh/helm-v3.12.0-linux-arm64.tar.gz" # M1 systems
+    multipass exec $k8s_master -- bash -c "sudo kubectl config view --raw > ~/.kube/config"
 }
 
 function clean-up() {
@@ -44,3 +45,6 @@ create-cluster
 deploy-k3s
 # clean-up
 
+# https://mycloudjourney.medium.com/vault-installation-to-minikube-via-helm-with-integrated-storage-15c9d1a907e6
+# sudo kubectl edit svc vault-active -n vault
+# change to NodePort
